@@ -68,67 +68,96 @@ const dishes = [
 ]
 
 const TopDishes = () => {
-  const [added, setAdded] = useState({})
+  const [counts, setCounts] = useState({})
 
-  const handleAdd = (id) => {
-    setAdded((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }))
-  }
+  const increase = (id) => setCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }))
+
+  const decrease = (id) => setCounts((prev) => {
+    const current = prev[id] || 0
+    if (current <= 1) {
+      const updated = { ...prev }
+      delete updated[id]
+      return updated
+    }
+    return { ...prev, [id]: current - 1 }
+  })
 
   return (
     <div className='pt-10 pb-16 px-4 sm:px-8 md:px-16 lg:px-24'>
 
-      {/* Header */}
       <h1 className='text-2xl font-bold text-gray-900 text-center'>Top Dishes Near You</h1>
       <p className='text-center text-gray-500 mt-1 mb-8'>Our most loved plates, ordered again and again.</p>
 
-      {/* Grid */}
       <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5'>
-        {dishes.map((dish) => (
-          <div
-            key={dish.id}
-            className='bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col'
-          >
-            {/* Image */}
-            <div className='relative w-full h-40 overflow-hidden'>
-              <img
-                src={dish.image}
-                alt={dish.title}
-                className='w-full h-full object-cover hover:scale-105 transition-transform duration-500'
-              />
-              {/* Category pill */}
-              <span className='absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full'
-                style={{ background: '#fff7ed', color: '#c2410c' }}>
-                {dish.category}
-              </span>
-            </div>
+        {dishes.map((dish) => {
+          const count = counts[dish.id] || 0
 
-            {/* Body */}
-            <div className='p-3 flex flex-col flex-1 gap-1'>
-              <h3 className='font-semibold text-gray-900 text-sm leading-snug'>{dish.title}</h3>
-              <p className='text-xs text-gray-500 leading-relaxed flex-1'>{dish.description}</p>
-
-              {/* Price + Add button */}
-              <div className='flex items-center justify-between mt-3'>
-                <span className='font-bold text-gray-900 text-sm'>
-                  KSh <span style={{ color: '#f97316' }}>{dish.price.toLocaleString()}</span>
+          return (
+            <div
+              key={dish.id}
+              className='bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col'
+            >
+              {/* Image */}
+              <div className='relative w-full h-40 overflow-hidden'>
+                <img
+                  src={dish.image}
+                  alt={dish.title}
+                  className='w-full h-full object-cover hover:scale-105 transition-transform duration-500'
+                />
+                <span className='absolute top-2 left-2 text-xs font-semibold px-2 py-0.5 rounded-full'
+                  style={{ background: '#fff7ed', color: '#c2410c' }}>
+                  {dish.category}
                 </span>
+              </div>
 
-                <button
-                  onClick={() => handleAdd(dish.id)}
-                  className='w-8 h-8 rounded-full flex items-center justify-center text-white text-xl font-bold transition-transform hover:scale-110 active:scale-95 relative'
-                  style={{ background: '#f97316', lineHeight: 1 }}
-                  title='Add to cart'
-                >
-                  {added[dish.id] ? (
-                    <span className='text-xs font-bold'>{added[dish.id]}</span>
+              {/* Body */}
+              <div className='p-3 flex flex-col flex-1 gap-1'>
+                <h3 className='font-semibold text-gray-900 text-sm leading-snug'>{dish.title}</h3>
+                <p className='text-xs text-gray-500 leading-relaxed flex-1'>{dish.description}</p>
+
+                {/* Price + controls */}
+                <div className='flex items-center justify-between mt-3'>
+                  <span className='font-bold text-gray-900 text-sm'>
+                    KSh <span style={{ color: '#f97316' }}>{dish.price.toLocaleString()}</span>
+                  </span>
+
+                  {count === 0 ? (
+                    /* Plain + button when nothing added yet */
+                    <button
+                      onClick={() => increase(dish.id)}
+                      className='w-8 h-8 rounded-full flex items-center justify-center text-white text-xl font-bold transition-transform hover:scale-110 active:scale-95'
+                      style={{ background: '#f97316' }}
+                      title='Add to cart'
+                    >
+                      +
+                    </button>
                   ) : (
-                    '+'
+                    /* − count + row once added */
+                    <div className='flex items-center gap-1.5'>
+                      <button
+                        onClick={() => decrease(dish.id)}
+                        className='w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-base transition-transform hover:scale-110 active:scale-95'
+                        style={{ background: '#f97316' }}
+                      >
+                        −
+                      </button>
+                      <span className='text-sm font-bold text-gray-900 min-w-[14px] text-center'>
+                        {count}
+                      </span>
+                      <button
+                        onClick={() => increase(dish.id)}
+                        className='w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-base transition-transform hover:scale-110 active:scale-95'
+                        style={{ background: '#f97316' }}
+                      >
+                        +
+                      </button>
+                    </div>
                   )}
-                </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )

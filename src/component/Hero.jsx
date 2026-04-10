@@ -35,7 +35,7 @@ const Hero = () => {
   }, [])
 
   return (
-    <div className='relative w-full h-[90vh] min-h-[500px] overflow-hidden '>
+    <div className='relative w-full h-[90vh] min-h-[500px] overflow-hidden'>
 
       {slides.map((slide, i) => (
         <div
@@ -48,22 +48,20 @@ const Hero = () => {
         </div>
       ))}
 
+      {/* Content — centered */}
       <div
-        className='absolute inset-0 z-10 flex flex-col justify-center px-8 sm:px-16 lg:px-24'
+        className='absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 sm:px-16 lg:px-24'
         style={{ transition: 'opacity 0.4s ease', opacity: animating ? 0 : 1 }}
       >
-        <span className='inline-block w-fit mb-4 text-xs font-semibold tracking-widest uppercase px-3 py-1 rounded-full'
-          style={{ background: '#f97316', color: '#fff' }}>
-          PabloEats
-        </span>
+      
 
-        <h1 className='text-white font-extrabold leading-tight mb-2'
+        <h1 className='text-white font-extrabold leading-tight mb-2 max-w-3xl'
           style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
           Taste the Flavor.{' '}
           <span style={{ color: '#f97316' }}>Feel the Experience.</span>
         </h1>
 
-        <h2 className='font-semibold mb-1'
+        <h2 className='font-semibold mb-1 max-w-2xl'
           style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', color: '#fed7aa' }}>
           Freshly made meals crafted to satisfy every craving.
         </h2>
@@ -79,7 +77,7 @@ const Hero = () => {
           that hits different — every single time.
         </p>
 
-        <div className='flex flex-wrap gap-4'>
+        <div className='flex flex-wrap gap-4 justify-center'>
           <Link to='/menu'>
             <button className='px-7 py-3 rounded-full font-bold text-white text-sm tracking-wide transition-transform hover:scale-105 active:scale-95'
               style={{ background: '#f97316', border: 'none' }}>
@@ -95,6 +93,7 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Dots */}
       <div className='absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2'>
         {slides.map((_, i) => (
           <button key={i} onClick={() => goTo(i)}
@@ -108,6 +107,7 @@ const Hero = () => {
         ))}
       </div>
 
+      {/* Arrows */}
       <button onClick={() => goTo((current - 1 + slides.length) % slides.length)}
         className='absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110'
         style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)', fontSize: '18px' }}>
