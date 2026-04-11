@@ -149,7 +149,7 @@ const Navbar = () => {
             className='flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors font-medium'>
             <MdAdminPanelSettings className='text-lg text-orange-500' /> Admin Login
           </Link>
-          <Link to='/login' onClick={() => setMenuOpen(false)}
+          <Link to='/user' onClick={() => setMenuOpen(false)}
             className='flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-orange-50 hover:text-orange-500 transition-colors font-medium'>
             <FiLogIn className='text-lg text-orange-500' /> User Login
           </Link>

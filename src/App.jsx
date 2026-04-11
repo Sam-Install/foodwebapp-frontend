@@ -8,6 +8,9 @@ import Footer from './component/Footer'
 import Navbar from './component/Navbar'
 import About from './pages/About'
 import Checkout from './pages/Checkout'
+import AdminLogin from './pages/AdminLogin'
+import UserLogin from './pages/UserLogin'
+import Register from './pages/Register'
 
 const App = () => {
   return (
@@ -20,6 +23,9 @@ const App = () => {
         <Route path='/menu' element={<Menu/>} />
         <Route path='/about' element={<About/>} />
         <Route path='/checkout' element={<Checkout/>} />
+        <Route path='/admin' element={<AdminLogin/>} />
+        <Route path='/user' element={<UserLogin/>} />
+        <Route path='/register' element={<Register/>} />
 
 
         
