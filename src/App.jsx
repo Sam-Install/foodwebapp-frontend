@@ -7,6 +7,7 @@ import Menu from './pages/Menu'
 import Footer from './component/Footer'
 import Navbar from './component/Navbar'
 import About from './pages/About'
+import Checkout from './pages/Checkout'
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path='/cart' element={<Cart/>} />
         <Route path='/menu' element={<Menu/>} />
         <Route path='/about' element={<About/>} />
+        <Route path='/checkout' element={<Checkout/>} />
 
 
         

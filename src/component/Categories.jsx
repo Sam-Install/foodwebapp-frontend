@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import m1 from '../assets/menu_1.png'
 import m2 from '../assets/menu_2.png'
 import m3 from '../assets/menu_3.png'
@@ -20,11 +21,15 @@ const categories = [
 ]
 
 const Categories = () => {
-  const [active, setActive] = useState(null)
   const scrollRef = useRef(null)
+  const navigate = useNavigate()
 
   const scroll = (dir) => {
     scrollRef.current?.scrollBy({ left: dir === 'left' ? -220 : 220, behavior: 'smooth' })
+  }
+
+  const handleClick = (label) => {
+    navigate(`/menu?category=${label}`)
   }
 
   return (
@@ -37,10 +42,8 @@ const Categories = () => {
         Go Through Our Categories
       </p>
 
-      {/* Slider wrapper */}
       <div className='relative flex items-center'>
 
-        {/* Left arrow */}
         <button
           onClick={() => scroll('left')}
           className='flex-shrink-0 w-9 h-9 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:border-orange-400 hover:text-orange-500 transition-all z-10 shadow-sm mr-2'
@@ -48,7 +51,6 @@ const Categories = () => {
           ‹
         </button>
 
-        {/* Scrollable track — hidden scrollbar */}
         <div
           ref={scrollRef}
           className='flex gap-5 overflow-x-auto scroll-smooth'
@@ -57,16 +59,14 @@ const Categories = () => {
           {categories.map((cat) => (
             <div
               key={cat.id}
-              onClick={() => setActive(active === cat.id ? null : cat.id)}
+              onClick={() => handleClick(cat.label)}
               className='flex flex-col items-center gap-2 cursor-pointer flex-shrink-0 group'
             >
               <div
                 className='w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 transition-all duration-300'
                 style={{
-                  borderColor: active === cat.id ? '#f97316' : 'transparent',
-                  boxShadow: active === cat.id
-                    ? '0 0 0 3px #fed7aa'
-                    : '0 2px 8px rgba(0,0,0,0.10)',
+                  borderColor: 'transparent',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.10)',
                 }}
               >
                 <img
@@ -76,22 +76,13 @@ const Categories = () => {
                 />
               </div>
 
-              <span
-                className='text-sm font-medium transition-colors duration-200 whitespace-nowrap'
-                style={{ color: active === cat.id ? '#f97316' : '#374151' }}
-              >
+              <span className='text-sm font-medium text-gray-700 whitespace-nowrap group-hover:text-orange-500 transition-colors duration-200'>
                 {cat.label}
               </span>
-
-              <div
-                className='w-1.5 h-1.5 rounded-full transition-all duration-300'
-                style={{ background: active === cat.id ? '#f97316' : 'transparent' }}
-              />
             </div>
           ))}
         </div>
 
-        {/* Right arrow */}
         <button
           onClick={() => scroll('right')}
           className='flex-shrink-0 w-9 h-9 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:border-orange-400 hover:text-orange-500 transition-all z-10 shadow-sm ml-2'

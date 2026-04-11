@@ -5,11 +5,15 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from 'react-router-dom';
 import { MdMenu, MdClose, MdAdminPanelSettings } from "react-icons/md";
 import { FiUser, FiLogIn, FiLogOut, FiHome, FiList, FiInfo } from "react-icons/fi";
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
+  const { cart } = useCart();
+
+  const cartCount = cart.reduce((sum, item) => sum + item.count, 0);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -44,8 +48,16 @@ const Navbar = () => {
         </ul>
 
         <div className='flex items-center gap-4'>
-          <Link to='/cart'>
+
+          {/* Cart with badge */}
+          <Link to='/cart' className='relative'>
             <IoCartOutline className='text-2xl text-white hover:text-orange-400 transition-colors' />
+            {cartCount > 0 && (
+              <span className='absolute -top-2 -right-2 w-4 h-4 rounded-full text-white text-[10px] font-bold flex items-center justify-center'
+                style={{ background: '#f97316' }}>
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           {/* Profile dropdown */}
@@ -100,7 +112,6 @@ const Navbar = () => {
           transform: menuOpen ? 'translateY(0)' : 'translateY(-12px)',
         }}
       >
-        {/* Top bar inside overlay */}
         <div className='flex items-center justify-between px-6 py-5 border-b border-gray-100'>
           <div className='flex items-center gap-2'>
             <GiHamburger className='text-orange-500 text-2xl' />
@@ -111,13 +122,12 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Nav links */}
         <nav className='flex flex-col justify-center flex-1 px-8 gap-1'>
           {[
-            { to: '/',      label: 'Home',     icon: <FiHome /> },
-            { to: '/menu',  label: 'Menu',     icon: <FiList /> },
-            { to: '/about', label: 'About Us', icon: <FiInfo /> },
-            { to: '/cart',  label: 'Cart',     icon: <IoCartOutline /> },
+            { to: '/',      label: 'Home',    icon: <FiHome /> },
+            { to: '/menu',  label: 'Menu',    icon: <FiList /> },
+            { to: '/about', label: 'About Us',icon: <FiInfo /> },
+            { to: '/cart',  label: `Cart${cartCount > 0 ? ` (${cartCount})` : ''}`, icon: <IoCartOutline /> },
           ].map((item) => (
             <Link
               key={item.to}
@@ -133,7 +143,6 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Bottom — account actions */}
         <div className='px-8 pb-12 border-t border-gray-100 pt-6 flex flex-col gap-1'>
           <p className='text-xs text-gray-400 uppercase tracking-widest font-semibold mb-2'>Account</p>
           <Link to='/admin' onClick={() => setMenuOpen(false)}
